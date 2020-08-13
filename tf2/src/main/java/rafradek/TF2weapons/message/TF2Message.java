@@ -595,6 +595,12 @@ public abstract class TF2Message implements IMessage {
 
 		}
 
+		public GuiConfigMessage(NBTTagCompound tag) {
+			// this.shooter=shooter.getEntityId();
+			this.tag = tag;
+		}
+
+
 		public GuiConfigMessage(NBTTagCompound tag, BlockPos pos) {
 			// this.shooter=shooter.getEntityId();
 			this.tag = tag;
