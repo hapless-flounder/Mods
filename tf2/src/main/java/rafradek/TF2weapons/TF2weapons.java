@@ -709,8 +709,8 @@ public class TF2weapons {
 		GameRegistry.registerTileEntity(TileEntityAmmoFurnace.class, "AmmoFurnace");
 		GameRegistry.registerTileEntity(TileEntityOverheadDoor.class, new ResourceLocation(TF2weapons.MOD_ID, "overhead_door"));
 		GameRegistry.registerTileEntity(TileEntityRobotDeploy.class, new ResourceLocation(TF2weapons.MOD_ID, "robot_deploy"));
-		GameRegistry.registerTileEntity(TileEntityResupplyCabinet.class, new ResourceLocation(TF2weapons.MOD_ID, "resupply_cabinet"));
-		GameRegistry.registerTileEntity(TileEntityCapturePoint.class, new ResourceLocation(TF2weapons.MOD_ID, "capture_point"));
+//		GameRegistry.registerTileEntity(TileEntityResupplyCabinet.class, new ResourceLocation(TF2weapons.MOD_ID, "resupply_cabinet"));
+//		GameRegistry.registerTileEntity(TileEntityCapturePoint.class, new ResourceLocation(TF2weapons.MOD_ID, "capture_point"));
 		GameRegistry.registerTileEntity(TileEntityGameConfigure.class, new ResourceLocation(TF2weapons.MOD_ID, "game_configure"));
 
 		registerBlock(blockCabinet = new BlockCabinet().setHardness(5.0F).setResistance(10.0F).setUnlocalizedName("cabinet"), TF2weapons.MOD_ID + ":tf2workbench");
