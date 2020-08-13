@@ -68,7 +68,8 @@ public class InvasionEvent implements INBTSerializable<NBTTagCompound> {
 	protected final BossInfoServer bossInfo = (new BossInfoServer(new TextComponentTranslation("gui.robotinvasion",1,1), BossInfo.Color.BLUE,
 			BossInfo.Overlay.PROGRESS));
 	
-	public static final float[] DIFFICULTY = {1f, 1.5f, 2f, 2.75f,4f};
+	public static final float[] DIFFICULTY = {0.5f, 0.6f, 0.75f, 1f, 1.5f};
+	public static final float[] HP_MULT = {4f, 5f, 6f, 8f, 12f};
 	
 	public static Multimap<Squad.Type, Squad> squads;
 	public World world;
@@ -154,7 +155,8 @@ public class InvasionEvent implements INBTSerializable<NBTTagCompound> {
 		return this.difficulty * (1f+(this.wave-1)/4f);
 	}
 	public int getMaxActiveRobots() {
-		return (int) (this.getWaveDifficulty() * 4.2f);
+//		return (int) (this.getWaveDifficulty() * 4.2f);
+		return 5;
 	}
 	public void onUpdate() {
 		//this.playersArea.removeIf(player -> !isInRange(player.getPosition()));
@@ -166,8 +168,11 @@ public class InvasionEvent implements INBTSerializable<NBTTagCompound> {
 				players.remove();
 			}
 		}
+
+		int numPlayers = 0;
 		for (EntityPlayer player: this.world.getPlayers(EntityPlayer.class, player -> !playersArea.contains(player) && isInRange(player.getPosition()))) {
 			this.onPlayerEnter(player);
+			++numPlayers;
 		}
 		if ((this.world.getTotalWorldTime() & 111) == 0)
 		for (EntityTF2Character ent : this.world.getEntitiesWithinAABB(EntityTF2Character.class, new AxisAlignedBB(target).grow(256), entity -> entity.isEntityAlive() 
@@ -315,8 +320,9 @@ public class InvasionEvent implements INBTSerializable<NBTTagCompound> {
                                         net.minecraftforge.fml.common.eventhandler.Event.Result canSpawn = net.minecraftforge.event.ForgeEventFactory.canEntitySpawn(entityliving, world, f, i3, f1, false);
                                         if (canSpawn == net.minecraftforge.fml.common.eventhandler.Event.Result.ALLOW || (canSpawn == net.minecraftforge.fml.common.eventhandler.Event.Result.DEFAULT && (entityliving.getCanSpawnHere() && entityliving.isNotColliding())))
                                         {
-                                        	livingdata.isGiant = entityliving.canBecomeGiant() && world.rand.nextFloat() < 0.025 * this.getWaveDifficulty();
-                                        	entityliving.robotStrength = this.difficulty;
+																					livingdata.isGiant = true;
+//                                        	livingdata.isGiant = entityliving.canBecomeGiant() && world.rand.nextFloat() < 0.025 * this.getWaveDifficulty();
+                                        	entityliving.robotStrength = (this.difficulty + numPlayers) * HP_MULT[this.diffTour];
                                         	
                                             if (!net.minecraftforge.event.ForgeEventFactory.doSpecialSpawn(entityliving, world, f, i3, f1))
                                             livingdata = (TF2CharacterAdditionalData) entityliving.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(entityliving)), livingdata);
@@ -375,7 +381,7 @@ public class InvasionEvent implements INBTSerializable<NBTTagCompound> {
 			TF2PlayerCapability.get(player).setInvasionDir(direction);
 		}
 		this.pauseTicks = 300;
-		this.robotsWave = (int) (11.2f * this.getWaveDifficulty());
+		this.robotsWave = (int) (5f * this.getWaveDifficulty());
 		this.robotKilledWave = 0;
 		this.endTime = this.world.getWorldTime() + (this.wave+1) * 12000;
 		this.bossInfo.setName(new TextComponentTranslation("gui.robotinvasion",this.wave,this.waves));
