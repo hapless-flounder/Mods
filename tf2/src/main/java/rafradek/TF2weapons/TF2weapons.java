@@ -1,5 +1,10 @@
 package rafradek.TF2weapons;
 
+/*
+ TODO: Add models for control point and resupply cabinet, uncomment lines to re-enable cabinet & point
+ TODO: Figure out what pickup, configurator, and blockGameConfigure do (might be arena-related) these
+ 	lines are currently commented out as well
+*/
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutput;
@@ -151,11 +156,11 @@ import net.minecraftforge.registries.IForgeRegistryModifiable;
 import rafradek.TF2weapons.arena.GameArena;
 import rafradek.TF2weapons.block.BlockAmmoFurnace;
 import rafradek.TF2weapons.block.BlockCabinet;
-import rafradek.TF2weapons.block.BlockCapturePoint;
-import rafradek.TF2weapons.block.BlockGameConfigure;
+//import rafradek.TF2weapons.block.BlockCapturePoint;
+//import rafradek.TF2weapons.block.BlockGameConfigure;
 import rafradek.TF2weapons.block.BlockOverheadDoor;
 import rafradek.TF2weapons.block.BlockProp;
-import rafradek.TF2weapons.block.BlockResupplyCabinet;
+//import rafradek.TF2weapons.block.BlockResupplyCabinet;
 import rafradek.TF2weapons.block.BlockRobotDeploy;
 import rafradek.TF2weapons.block.BlockUpgradeStation;
 import rafradek.TF2weapons.client.ClientProxy;
@@ -185,7 +190,7 @@ import rafradek.TF2weapons.common.TF2Attribute;
 import rafradek.TF2weapons.common.WeaponsCapability;
 import rafradek.TF2weapons.entity.EntityDummy;
 import rafradek.TF2weapons.entity.EntityLightDynamic;
-import rafradek.TF2weapons.entity.EntityPickup;
+//import rafradek.TF2weapons.entity.EntityPickup;
 import rafradek.TF2weapons.entity.EntityStatue;
 import rafradek.TF2weapons.entity.EntityTarget;
 import rafradek.TF2weapons.entity.boss.EntityHHH;
@@ -373,8 +378,8 @@ public class TF2weapons {
 	public static Block blockAmmoFurnace;
 	public static Block blockOverheadDoor;
 	public static Block blockRobotDeploy;
-	public static Block blockResupplyCabinet;
-	public static Block blockCapturePoint;
+//	public static Block blockResupplyCabinet;
+//	public static Block blockCapturePoint;
 	public static Block blockConfigure;
 	
 	public static boolean generateCopper;
@@ -434,7 +439,7 @@ public class TF2weapons {
 	public static Item itemBossSpawn;
 	public static Item itemDoorController;
 	public static Item itemMoney;
-	public static Item itemConfigurator;
+//	public static Item itemConfigurator;
 	public static Item itemPickup;
 	
 	public static ResourceLocation lootTF2Character;
@@ -584,13 +589,13 @@ public class TF2weapons {
 				return new ItemStack(Item.getItemFromBlock(blockCabinet));
 			}
 		};
-		tabarenatf2 = new CreativeTabs("tf2arena") {
-			@Override
-			public ItemStack getTabIconItem() {
-				return new ItemStack(itemPickup,1,2);
-			}
-			
-		};
+//		tabarenatf2 = new CreativeTabs("tf2arena") {
+//			@Override
+//			public ItemStack getTabIconItem() {
+//				return new ItemStack(itemPickup,1,2);
+//			}
+//
+//		};
 		
 		LOGGER.info("Initializing attributes");
 		MapList.initMaps();
@@ -649,7 +654,7 @@ public class TF2weapons {
 		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID,"onyx"),EntityOnyx.class, "onyx", 31, this, 64, 20, false);
 		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID,"fireball"),EntityFuryFireball.class, "fireball", 32, this, 64, 20, false);
 		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID,"light"),EntityLightDynamic.class, "light", 33, this, 256, 20, false);
-		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID,"pickup"),EntityPickup.class, "pickup", 34, this, 80, 20, false);
+//		EntityRegistry.registerModEntity(new ResourceLocation(MOD_ID,"pickup"),EntityPickup.class, "pickup", 34, this, 80, 20, false);
 		// GameRegistry.registerItem(new ItemArmor(TF2weapons.OPARMOR, 3,
 		// 0).setUnlocalizedName("oparmor").setTextureName("diamond_helmet").setCreativeTab(tabtf2),"oparmor");
 		ForgeRegistries.ITEMS.register(itemPlacer = new ItemMonsterPlacerPlus().setUnlocalizedName("monsterPlacer").setRegistryName(TF2weapons.MOD_ID + ":placer"));
@@ -696,7 +701,7 @@ public class TF2weapons {
 		ForgeRegistries.ITEMS.register(itemDoorController = new ItemDoorController().setCreativeTab(tabutilitytf2).setUnlocalizedName("doorcontroller")
 				.setRegistryName(TF2weapons.MOD_ID + ":door_controller"));
 		ForgeRegistries.ITEMS.register(itemMoney = new ItemMoney().setRegistryName(TF2weapons.MOD_ID + ":money"));
-		ForgeRegistries.ITEMS.register(itemConfigurator = new ItemConfigure().setRegistryName(TF2weapons.MOD_ID + ":configurator").setCreativeTab(tabarenatf2));
+//		ForgeRegistries.ITEMS.register(itemConfigurator = new ItemConfigure().setRegistryName(TF2weapons.MOD_ID + ":configurator").setCreativeTab(tabarenatf2));
 		ForgeRegistries.ITEMS.register(itemPickup = new ItemPickup().setRegistryName(TF2weapons.MOD_ID + ":pickup").setCreativeTab(tabarenatf2));
 		
 		Iterator<String> iterator = MapList.weaponClasses.keySet().iterator();
@@ -729,12 +734,12 @@ public class TF2weapons {
 				.setUnlocalizedName("blockOverhead"), TF2weapons.MOD_ID + ":overhead_door");
 		registerBlock(blockRobotDeploy= new BlockRobotDeploy().setCreativeTab(tabsurvivaltf2).setHardness(3.0F).setResistance(5.0F)
 				.setUnlocalizedName("blockRobotDeploy"), TF2weapons.MOD_ID + ":robot_deploy");
-		registerBlock(blockResupplyCabinet= new BlockResupplyCabinet().setCreativeTab(tabarenatf2).setBlockUnbreakable().setResistance(6000000F)
-				.setUnlocalizedName("blockResupplyCabinet"), TF2weapons.MOD_ID + ":resupply_cabinet");
-		registerBlock(blockCapturePoint= new BlockCapturePoint().setCreativeTab(tabarenatf2).setBlockUnbreakable().setResistance(6000000F)
-				.setUnlocalizedName("blockCapturePoint"), TF2weapons.MOD_ID + ":capture_point");
-		registerBlock(blockConfigure= new BlockGameConfigure().setCreativeTab(tabarenatf2).setBlockUnbreakable().setResistance(6000000F)
-				.setUnlocalizedName("blockGameConfigure"), TF2weapons.MOD_ID + ":game_configure");
+//		registerBlock(blockResupplyCabinet= new BlockResupplyCabinet().setCreativeTab(tabarenatf2).setBlockUnbreakable().setResistance(6000000F)
+//				.setUnlocalizedName("blockResupplyCabinet"), TF2weapons.MOD_ID + ":resupply_cabinet");
+//		registerBlock(blockCapturePoint= new BlockCapturePoint().setCreativeTab(tabarenatf2).setBlockUnbreakable().setResistance(6000000F)
+//				.setUnlocalizedName("blockCapturePoint"), TF2weapons.MOD_ID + ":capture_point");
+//		registerBlock(blockConfigure= new BlockGameConfigure().setCreativeTab(tabarenatf2).setBlockUnbreakable().setResistance(6000000F)
+//				.setUnlocalizedName("blockGameConfigure"), TF2weapons.MOD_ID + ":game_configure");
 		ForgeRegistries.BLOCKS.register(blockProp= new BlockProp(Material.WOOD, MapColor.GOLD).setHardness(0.75F).setResistance(2.0F)
 				.setUnlocalizedName("blockProp").setRegistryName(TF2weapons.MOD_ID + ":prop_block"));
 
